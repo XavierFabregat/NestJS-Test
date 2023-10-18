@@ -16,6 +16,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+"""task"""
+type Task {
+  id: ID!
+  title: String!
+  description: String!
+  progress: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+}
+
 type Query {
   getHello: String!
   getUser(id: String!): User
@@ -28,6 +39,16 @@ type Query {
     cursor: String
     orderBy: String
   ): [User!]
+  getTask(id: String!): Task
+  getTasks(
+    skip: Int = 0
+    take: Int = 20
+
+    """Object with id (string), username (string) and/or email (string)"""
+    where: JSON
+    cursor: String
+    orderBy: String
+  ): [Task!]!
 }
 
 """
@@ -37,10 +58,17 @@ scalar JSON
 
 type Mutation {
   createUser(createUserData: CreateUserInput!): User!
+  createTask(createTaskInput: CreateTaskInput!): Task!
 }
 
 input CreateUserInput {
   email: String!
   username: String!
   password: String!
+}
+
+input CreateTaskInput {
+  title: String!
+  description: String!
+  userId: String!
 }
