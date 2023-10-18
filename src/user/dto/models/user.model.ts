@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { User as UserModel } from '@prisma/client';
+import { Task } from '../../../task/dto/models/task.model';
 
 @ObjectType({ description: 'user' })
 export class User {
@@ -20,7 +21,6 @@ export class User {
   @Field(() => Date)
   updatedAt: UserModel['updatedAt'];
 
-  // TODO: uncomment once Tasks is defined
-  // @Field(() => Tasks)
-  // tasks: Tasks;
+  @Field(() => [Task])
+  tasks?: Task[] = [];
 }
