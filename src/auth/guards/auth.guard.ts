@@ -7,14 +7,15 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants';
 import { Request } from 'express';
+import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
+    const _request = context.switchToHttp().getRequest<Request>();
+    const token = this.extractTokenFromContext(context);
     console.log(token);
     if (!token) {
       throw new UnauthorizedException();
@@ -25,7 +26,7 @@ export class AuthGuard implements CanActivate {
         secret: jwtConstants.secret,
       });
       console.log(payload);
-      request['user'] = payload;
+      // request['user'] = payload;
     } catch (error) {
       console.log(error);
       throw new UnauthorizedException();
@@ -33,8 +34,19 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+  private extractTokenFromContext(
+    context: ExecutionContext,
+  ): string | undefined {
+    let request: Request;
+
+    if (context.getType() === 'http') {
+      request = context.switchToHttp().getRequest();
+    } else if (context.getType<GqlContextType>() === 'graphql') {
+      const gqlContext = GqlExecutionContext.create(context);
+      request = gqlContext.getContext().req;
+    }
+
+    const [type, token] = request.headers['authorization']?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }
