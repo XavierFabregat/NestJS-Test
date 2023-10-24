@@ -20,7 +20,6 @@ export class AuthService {
     );
     if (user && user.password === password) {
       delete user.password;
-      //TODO: generate jwt token and return it here instead of user
       const payload = { username: user.username, sub: user.id };
       return { access_token: await this.jwtService.signAsync(payload) };
     }

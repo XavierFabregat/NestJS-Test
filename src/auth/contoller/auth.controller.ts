@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
@@ -17,6 +18,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: SignInBody) {
+    if (!signInDto || !signInDto.password || !signInDto.usernameOrEmail)
+      throw new UnauthorizedException();
     const { usernameOrEmail, password } = signInDto;
     return this.authService.signIn(usernameOrEmail, password);
   }
