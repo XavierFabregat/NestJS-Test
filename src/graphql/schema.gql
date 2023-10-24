@@ -30,7 +30,7 @@ type User {
 
 type Query {
   getHello: String!
-  getUser(id: String!): User
+  getUser: User
   getUsers(
     skip: Int = 0
     take: Int = 20
