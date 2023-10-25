@@ -19,7 +19,6 @@ export class AuthService {
       isEmail ? { email: usernameOrEmail } : { username: usernameOrEmail },
     );
     if (user && user.password === password) {
-      delete user.password;
       const payload = { username: user.username, sub: user.id };
       return { access_token: await this.jwtService.signAsync(payload) };
     }
