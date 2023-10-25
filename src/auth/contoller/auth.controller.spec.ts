@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../service/auth.service';
 import { mock } from 'jest-mock-extended';
@@ -50,5 +49,15 @@ describe('AuthController', () => {
     } catch (e) {
       expect(e).toBeInstanceOf(UnauthorizedException);
     }
+  });
+
+  describe('POST /logout', () => {
+    it('should call authService logout', async () => {
+      const result = await authController.signOut();
+      expect(result).toHaveProperty('access_token');
+      expect(typeof result.access_token).toBe('string');
+      expect(result.access_token).toBe('');
+      expect(mockAuthService.signOut).toHaveBeenCalledTimes(1);
+    });
   });
 });
