@@ -4,7 +4,7 @@ import { AppService } from './service/app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from '../user/user.module';
-import { rootResolver } from '../graphql/resolver/root.resolver';
+import { RootResolver } from '../graphql/resolver/root.resolver';
 import { TaskModule } from '../task/Task.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
@@ -22,6 +22,6 @@ import { AuthModule } from '../auth/auth.module';
     TaskModule,
   ],
   controllers: [AppController],
-  providers: [AppService, rootResolver],
+  providers: [AppService, RootResolver],
 })
 export class AppModule {}

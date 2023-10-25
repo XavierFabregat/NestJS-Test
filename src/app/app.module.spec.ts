@@ -7,7 +7,7 @@ import { UserModule } from '../user/user.module';
 import { TaskModule } from '../task/Task.module';
 import { AppController } from './controllers/app.controller';
 import { AppService } from './service/app.service';
-import { rootResolver } from '../graphql/resolver/root.resolver';
+import { RootResolver } from '../graphql/resolver/root.resolver';
 
 describe('AppModule', () => {
   let appModule: TestingModule;
@@ -28,6 +28,6 @@ describe('AppModule', () => {
     expect(appModule.get<TaskModule>(TaskModule)).toBeDefined();
     expect(appModule.get<AppController>(AppController)).toBeDefined();
     expect(appModule.get<AppService>(AppService)).toBeDefined();
-    expect(appModule.get<rootResolver>(rootResolver)).toBeDefined();
+    expect(appModule.get<RootResolver>(RootResolver)).toBeDefined();
   });
 });
