@@ -9,6 +9,7 @@ import { AppService } from './service/app.service';
 import { RootResolver } from '../graphql/resolver/root.resolver';
 import { ApolloDriver } from '@nestjs/apollo';
 import { AppModule } from './app.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 describe('AppModule', () => {
   let appModule: TestingModule;
@@ -38,5 +39,6 @@ describe('AppModule', () => {
     expect(appModule.get<AppController>(AppController)).toBeDefined();
     expect(appModule.get<AppService>(AppService)).toBeDefined();
     expect(appModule.get<RootResolver>(RootResolver)).toBeDefined();
+    expect(appModule.get<PrismaModule>(PrismaModule)).toBeDefined();
   });
 });

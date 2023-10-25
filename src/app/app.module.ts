@@ -8,6 +8,7 @@ import { RootResolver } from '../graphql/resolver/root.resolver';
 import { TaskModule } from '../task/Task.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from '../auth/auth.module';
       context: ({ req }) => ({ req }),
     }),
     UserModule,
+    PrismaModule,
     TaskModule,
   ],
   controllers: [AppController],
